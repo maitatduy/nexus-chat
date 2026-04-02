@@ -14,14 +14,14 @@ export const protectedRoute = (req, res, next) => {
         }
 
         // Xác thực token hợp lệ
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decodedUser) => {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decodedUser) => {
             if (err) {
                 console.error(`[ERROR]: Token không hợp lệ! Lỗi: ${err.message}`);
                 return res.status(403).json({
                     message: "Token hết hạn hoặc không hợp lệ!",
                 });
             }
-            const user = User.findById(decodedUser.userId).select("-hashedPassword");
+            const user = await User.findById(decodedUser.userId).select("-hashedPassword");
             if (!user) {
                 return res.status(404).json({
                     message: "Người dùng không tồn tại!",
