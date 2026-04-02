@@ -103,3 +103,32 @@ export const signIn = async (req, res) => {
         });
     }
 };
+
+export const signOut = async (req, res) => {
+    try {
+        const { refreshToken } = req.cookies;
+
+        if (!refreshToken) {
+            return res.status(400).json({
+                message: "Không tìm thấy refresh token!",
+            });
+        }
+
+        // Xóa session khỏi cơ sở dữ liệu
+        await Session.deleteOne({
+            refreshToken,
+        });
+
+        // Xóa refresh token khỏi cookie
+        res.clearCookie("refreshToken");
+
+        return res.status(200).json({
+            message: "Đăng xuất thành công!",
+        });
+    } catch (error) {
+        console.error(`[ERROR]: Đăng xuất thất bại! Lỗi: ${error.message}`);
+        return res.status(500).json({
+            message: "Lỗi hệ thống!",
+        });
+    }
+};
