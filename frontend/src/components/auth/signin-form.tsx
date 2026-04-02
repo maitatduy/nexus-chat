@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 
 const signInSchema = z.object({
     username: z
@@ -48,9 +49,9 @@ export function SigninForm({ className, ...props }: React.ComponentProps<"div">)
                         <div className='flex flex-col gap-6'>
                             {/* Header - Logo */}
                             <div className='flex flex-col items-center text-center gap-2'>
-                                <a href='/' className='mx-auto block w-fit text-center'>
+                                <Link to='/' className='mx-auto block w-fit text-center'>
                                     <img src='/logo.svg' alt='Nexus' />
-                                </a>
+                                </Link>
                                 <h1 className='text-2xl font-bold'>Chào mừng quay trở lại Nexus</h1>
                                 <p className='text-muted-foreground text-balance'>
                                     Đăng nhập vào tài khoản Nexus của bạn
@@ -85,9 +86,9 @@ export function SigninForm({ className, ...props }: React.ComponentProps<"div">)
 
                             <div className='text-center text-sm'>
                                 Chưa có tài khoản?{" "}
-                                <a href='/sign-up' className='underline underline-offset-4'>
+                                <Link to='/sign-up' className='underline underline-offset-4'>
                                     Đăng ký
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </form>
@@ -101,8 +102,8 @@ export function SigninForm({ className, ...props }: React.ComponentProps<"div">)
                 </CardContent>
             </Card>
             <div className='text-sm text-balance px-6 text-center *:[a]:hover:text-muted-foreground text-primary *:[a]:underline *:[a]:underline-offetset-4'>
-                Bằng cách tiếp tục, bạn đồng ý với <a href='#'>Điều khoản dịch vụ</a> và{" "}
-                <a href='#'>Chính sách bảo mật</a> của chúng tôi.
+                Bằng cách tiếp tục, bạn đồng ý với <Link to='#'>Điều khoản dịch vụ</Link> và{" "}
+                <Link to='#'>Chính sách bảo mật</Link> của chúng tôi.
             </div>
         </div>
     );
