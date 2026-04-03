@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { connectDatabase } from "./libs/database.js";
 import authRoute from "./routes/auth.route.js";
 import { protectedRoute } from "./middlewares/auth.middleware.js";
@@ -13,6 +14,12 @@ const PORT = process.env.PORT || 4000;
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+    cors({
+        credentials: true,
+        origin: process.env.CLIENT_URL || "http://localhost:5173",
+    }),
+);
 
 // public routes
 app.use("/api/auth", authRoute);
