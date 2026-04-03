@@ -7,7 +7,9 @@ import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const signUpSchema = z.object({
     username: z
@@ -45,7 +47,17 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
         resolver: zodResolver(signUpSchema),
     });
 
-    const onSubmit = (data: SignUpFormValues) => {};
+    const { signUp } = useAuthStore();
+
+    const navigate = useNavigate();
+
+    const onSubmit = async (data: SignUpFormValues) => {
+        const { username, password, email, firstName, lastName } = data;
+
+        await signUp(username, password, email, firstName, lastName);
+
+        navigate("/sign-in");
+    };
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
