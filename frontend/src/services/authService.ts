@@ -41,4 +41,12 @@ export const authService = {
             },
         );
     },
+
+    fetchMe: async () => {
+        const response = await api.get("/users/me", {
+            withCredentials: true,
+        });
+
+        return response.data.user;
+    },
 };
