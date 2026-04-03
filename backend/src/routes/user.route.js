@@ -3,6 +3,6 @@ import { authMe } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.get("/profile", authMe);
+router.get("/me", authMe);
 
 export default router;
