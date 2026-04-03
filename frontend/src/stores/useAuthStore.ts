@@ -29,7 +29,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         try {
             set({ loading: true });
             const { accessToken } = await authService.signIn(username, password);
-            set({ accessToken });
+            get().setAccessToken(accessToken);
             await get().fetchMe();
             toast.success("Đăng nhập thành công! Chào mừng bạn đến với Nexus!");
         } catch (error: any) {
@@ -63,5 +63,30 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         } finally {
             set({ loading: false });
         }
+    },
+
+    refresh: async () => {
+        try {
+            set({ loading: true });
+
+            const { user, fetchMe } = get();
+            const accessToken = await authService.refresh();
+
+            get().setAccessToken(accessToken);
+
+            if (!user) {
+                await fetchMe();
+            }
+        } catch (error: any) {
+            console.error(`[ERROR]: Làm mới token không thành công! Lỗi: ${error.message}`);
+            get().clearState();
+            toast.error("Phiên làm việc đã hết hạn! Vui lòng đăng nhập lại!");
+        } finally {
+            set({ loading: false });
+        }
+    },
+
+    setAccessToken: (accessToken) => {
+        set({ accessToken });
     },
 }));

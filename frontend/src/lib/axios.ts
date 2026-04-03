@@ -14,4 +14,36 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+
+        if (
+            originalRequest.url.includes("/auth/refresh") ||
+            originalRequest.url.includes("/auth/sign-in") ||
+            originalRequest.url.includes("/auth/sign-up")
+        ) {
+            return Promise.reject(error);
+        }
+
+        originalRequest._retry = originalRequest._retry || 0;
+
+        if (error.response?.status === 403 && originalRequest._retry < 3) {
+            originalRequest._retry++;
+            try {
+                const res = await api.post("/auth/refresh", {}, { withCredentials: true });
+                const newAccessToken = res.data.accessToken;
+                useAuthStore.getState().setAccessToken(newAccessToken);
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+                return api(originalRequest);
+            } catch (error: any) {
+                useAuthStore.getState().clearState();
+                return Promise.reject(error);
+            }
+        }
+        return Promise.reject(error);
+    },
+);
+
 export default api;
