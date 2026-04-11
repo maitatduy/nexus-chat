@@ -5,6 +5,7 @@ import cors from "cors";
 import { connectDatabase } from "./libs/database.js";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
+import friendRoute from "./routes/friend.route.js";
 
 import { protectedRoute } from "./middlewares/auth.middleware.js";
 
@@ -29,6 +30,7 @@ app.use("/api/auth", authRoute);
 // private routes
 app.use(protectedRoute);
 app.use("/api/users", userRoute);
+app.use("/api/friends", friendRoute);
 
 connectDatabase().then(() => {
     app.listen(PORT, () => {
