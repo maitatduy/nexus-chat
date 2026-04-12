@@ -7,6 +7,7 @@ import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
 import friendRoute from "./routes/friend.route.js";
 import messageRoute from "./routes/message.route.js";
+import conversationRoute from "./routes/conversation.route.js";
 
 import { protectedRoute } from "./middlewares/auth.middleware.js";
 
@@ -33,6 +34,7 @@ app.use(protectedRoute);
 app.use("/api/users", userRoute);
 app.use("/api/friends", friendRoute);
 app.use("/api/messages", messageRoute);
+app.use("/api/conversations", conversationRoute);
 
 connectDatabase().then(() => {
     app.listen(PORT, () => {
