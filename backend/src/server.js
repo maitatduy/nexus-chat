@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import swaggerUI from "swagger-ui-express";
+import fs from "fs";
 import { connectDatabase } from "./libs/database.js";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
@@ -25,6 +27,10 @@ app.use(
         origin: process.env.CLIENT_URL || "http://localhost:5173",
     }),
 );
+
+// swagger
+const swaggerDocument = JSON.parse(fs.readFileSync("./src/swagger.json", "utf-8"));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // public routes
 app.use("/api/auth", authRoute);
