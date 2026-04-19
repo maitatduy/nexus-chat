@@ -39,6 +39,7 @@ export const useAuthStore = create<AuthState>()(
                     const { accessToken } = await authService.signIn(username, password);
                     get().setAccessToken(accessToken);
                     await get().fetchMe();
+                    useChatStore.getState().fetchConversations();
                     toast.success("Đăng nhập thành công! Chào mừng bạn đến với Nexus!");
                 } catch (error: any) {
                     console.error(`[ERROR]: Đăng nhập không thành công! Lỗi: ${error.message}`);

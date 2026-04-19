@@ -1,3 +1,4 @@
+import { chatService } from "@/services/chatService";
 import type { ChatState } from "@/types/store";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -18,6 +19,16 @@ export const useChatStore = create<ChatState>()(
                     activeConversationId: null,
                     loading: false,
                 });
+            },
+            fetchConversations: async () => {
+                try {
+                    set({ loading: true });
+                    const { conversations } = await chatService.fetchConversations();
+                    set({ loading: false, conversations });
+                } catch (error) {
+                    console.error("[ERROR]: Lỗi khi lấy dữ liệu conversations", error);
+                    set({ loading: false });
+                }
             },
         }),
         {
