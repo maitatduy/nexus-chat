@@ -22,24 +22,31 @@ import NewGroupChatModal from "../chat/NewGroupChatModal";
 import GroupChatList from "../chat/GroupChatList";
 import AddFriendModal from "../chat/AddFriendModal";
 import DirectMessageList from "../chat/DirectMessageList";
+import { useThemeStore } from "@/stores/useThemeStore";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const { isDark, toggleTheme } = useThemeStore();
+
     return (
         <Sidebar variant='inset' {...props}>
             {/* Header */}
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size='lg' asChild className='bg-gradient-primary'>
+                        <SidebarMenuButton
+                            size='lg'
+                            asChild
+                            className='bg-linear-to-r from-blue-800 to-blue-700 dark:bg-linear-to-r dark:from-slate-900 dark:to-slate-900'
+                        >
                             <a href='#'>
                                 <div className='flex w-full items-center px-2 justify-between'>
                                     <h1 className='text-xl font-bold text-white'>Nexus</h1>
                                     <div className='flex items-center gap-2'>
                                         <Sun className='size-4 text-white/80' />
                                         <Switch
-                                            checked={true}
-                                            onCheckedChange={() => {}}
-                                            className='data-[state=checked]:bg-background/80'
+                                            checked={isDark}
+                                            onCheckedChange={toggleTheme}
+                                            className='data-[state=checked]:bg-background/80 cursor-pointer'
                                         />
                                         <Moon className='size-4 text-white/80' />
                                     </div>
