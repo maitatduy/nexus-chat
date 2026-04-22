@@ -2,6 +2,8 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useChatStore } from "@/stores/useChatStore";
 import type { Conversation } from "@/types/chat";
 import ChatCard from "./ChatCard";
+import UnreadCountBadge from "./UnreadCountBadge";
+import GroupChatAvatar from "./GroupChatAvatar";
 
 export default function GroupChatCard({ conversation }: { conversation: Conversation }) {
     const { user } = useAuthStore();
@@ -32,9 +34,8 @@ export default function GroupChatCard({ conversation }: { conversation: Conversa
             unreadCount={unreadCount}
             leftSection={
                 <>
-                    {/* todo: user avatar */}
-                    {/* todo: status badge */}
-                    {/* todo: unread count */}
+                    {unreadCount > 0 && <UnreadCountBadge unreadCount={unreadCount} />}
+                    <GroupChatAvatar participants={conversation.participants} type='chat' />
                 </>
             }
             subtitle={

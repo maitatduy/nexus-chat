@@ -13,7 +13,7 @@ export default function GroupChatList() {
     return (
         <div className='flex-1 overflow-y-auto p-2 space-y-2'>
             {groupConversations.map((conversation) => (
-                <GroupChatCard conversation={conversation} />
+                <GroupChatCard key={conversation._id} conversation={conversation} />
             ))}
         </div>
     );

@@ -3,6 +3,9 @@ import ChatCard from "./ChatCard";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useChatStore } from "@/stores/useChatStore";
 import { cn } from "@/lib/utils";
+import UserAvatar from "./UserAvatar";
+import StatusBadge from "./StatusBadge";
+import UnreadCountBadge from "./UnreadCountBadge";
 
 export default function DirectMessageCard({ conversation }: { conversation: Conversation }) {
     const { user } = useAuthStore();
@@ -35,9 +38,14 @@ export default function DirectMessageCard({ conversation }: { conversation: Conv
             unreadCount={unreadCount}
             leftSection={
                 <>
-                    {/* todo: user avatar */}
-                    {/* todo: status badge */}
-                    {/* todo: unread count */}
+                    <UserAvatar
+                        type='sidebar'
+                        name={otherUser?.displayName ?? ""}
+                        avatarUrl={otherUser?.avatarUrl ?? undefined}
+                    />
+
+                    <StatusBadge status='offline' />
+                    {unreadCount > 0 && <UnreadCountBadge unreadCount={unreadCount} />}
                 </>
             }
             subtitle={
