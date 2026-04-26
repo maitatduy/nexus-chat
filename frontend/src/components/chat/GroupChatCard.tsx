@@ -7,7 +7,7 @@ import GroupChatAvatar from "./GroupChatAvatar";
 
 export default function GroupChatCard({ conversation }: { conversation: Conversation }) {
     const { user } = useAuthStore();
-    const { activeConversationId, setActiveConversation, messages } = useChatStore();
+    const { activeConversationId, setActiveConversation, messages, fetchMessages } = useChatStore();
 
     if (!user) {
         return null;
@@ -20,7 +20,7 @@ export default function GroupChatCard({ conversation }: { conversation: Conversa
     const handleSelectConversation = async (id: string) => {
         setActiveConversation(id);
         if (!messages[id]) {
-            // todo: fetch messages
+            await fetchMessages();
         }
     };
 
